@@ -22,8 +22,8 @@
         }
 
         #app {
-            width: 200px;
-            height: 200px;
+            width: 500px;
+            height: 500px;
             background: #d2fafb;
             color: black;
         }
@@ -34,9 +34,11 @@
     <!-- <iframe src="https://ribbon-color.glitch.me/" style="width:1000px; height:500px; display:block;" /> -->
     <div id="app">
         <span>Click: <span id="mouse_click"></span></span>
+        <span>touch: <span id="touch"></span></span>
     </div>
     <script>
         let clickTimeout = null;
+        let touchTimeout = null;
         const checkTrusted = fn => {
             return (event, ...args) => {
                 if (!event.isTrusted) {
@@ -53,13 +55,28 @@
                 const txt = ` x[${x}] y[${y}]`;
                 const el = document.getElementById("mouse_click");
                 el.innerText = txt;
-                if(clickTimeout){
-                    console.log('clearing timeout');
+                if(clickTimeout){                    
                     clearTimeout(clickTimeout);
                 }
                 clickTimeout = setTimeout(() => {
                     el.innerText = "";
-                }, 3000);
+                }, 5000);
+            })
+        );
+        document.addEventListener(
+            "touchStart",
+            checkTrusted(event => {
+                const x = event.clientX + window.scrollX;
+                const y = event.clientY + window.scrollY;
+                const txt = ` x[${x}] y[${y}]`;
+                const el = document.getElementById("touch");
+                el.innerText = txt;
+                if(touchTimeout){                    
+                    clearTimeout(touchTimeout);
+                }
+                touchTimeout = setTimeout(() => {
+                    el.innerText = "";
+                }, 5000);
             })
         );
     </script>
