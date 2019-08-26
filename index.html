@@ -10,7 +10,7 @@
             padding: 0;
             border: 0;
             outline: 0;
-            font-size: 15px;
+            font-size: 20px;
         }
 
         html,
@@ -33,8 +33,8 @@
 <body>
     <!-- <iframe src="https://ribbon-color.glitch.me/" style="width:1000px; height:500px; display:block;" /> -->
     <div id="app">
-        <span>Click: <span id="mouse_click"></span></span>
-        <span>touch: <span id="touch"></span></span>
+        <div>Click: <span id="mouse_click"></span></div>
+        <div>Touch: <span id="touch"></span></div>
     </div>
     <script>
         let clickTimeout = null;
@@ -64,7 +64,7 @@
             })
         );
         document.addEventListener(
-            "touchStart",
+            "touchstart",
             checkTrusted(event => {
                 const x = event.clientX + window.scrollX;
                 const y = event.clientY + window.scrollY;
