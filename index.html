@@ -34,10 +34,12 @@
     <div id="app">
         <div>Click: <span id="mouse_click"></span></div>
         <div>Touch (round): <span id="touch"></span></div>
+        <div>Touch End (round): <span id="touch_end"></span></div>
     </div>
     <script>
         let clickTimeout = null;
         let touchTimeout = null;
+        let touchEndTimeout = null;
         const checkTrusted = fn => {
             return (event, ...args) => {
                 if (!event.isTrusted) {
@@ -75,6 +77,25 @@
                         clearTimeout(touchTimeout);
                     }
                     touchTimeout = setTimeout(() => {
+                        el.innerText = "";
+                    }, 5000);
+                });
+
+            })
+        );
+        document.addEventListener(
+            "touchend",
+            checkTrusted(event => {
+                Array.from(event.touches || []).forEach((touch) => {
+                    const x = touch.clientX + window.scrollX;
+                    const y = touch.clientY + window.scrollY;
+                    const txt = ` x[${Math.round(x)}] y[${Math.round(y)}]`;
+                    const el = document.getElementById("touch_end");
+                    el.innerText = txt;
+                    if (touchEndTimeout) {
+                        clearTimeout(touchEndTimeout);
+                    }
+                    touchEndTimeout = setTimeout(() => {
                         el.innerText = "";
                     }, 5000);
                 });
